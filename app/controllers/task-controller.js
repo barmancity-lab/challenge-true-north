@@ -1,6 +1,12 @@
 /* eslint-disable dot-notation */
 
-const get = (email) => { return email; };
+const get = (email) => { 
+  
+  
+  
+  return email; 
+
+};
 
 const put = (email) => { return email; };
 

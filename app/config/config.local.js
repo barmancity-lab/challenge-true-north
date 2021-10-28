@@ -6,5 +6,8 @@ module.exports = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: process.env.DIALECT || 'mysql'
+  },
+  service: {
+    url: process.env.SERVICE_HOST || 'http://some-service.com'
   }
 };
