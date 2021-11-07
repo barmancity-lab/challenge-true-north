@@ -1,4 +1,4 @@
-const config = require('../config/index');
+const config = require('../config/index').config;
 const axios = require('axios');
 const constants = require('../constants/constants');
 const messages = require('../constants/messages');
@@ -7,11 +7,11 @@ const getLoremUrl = () => {
   return `${config.service.url}`;
 };
 
-const getLoremData = async (req) => {
+const getLoremData = async (qty) => {
   const loremUrl = getLoremUrl();
   try {
     const instance = axios.create({
-      baseURL: `${loremUrl}/api?quantity=${req.param.qty}`
+      baseURL: `${loremUrl}/api?quantity=${qty || 1}`
     });
 
     const response = await instance.get();

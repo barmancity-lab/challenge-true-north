@@ -1,9 +1,6 @@
 // .sequelizerc
 require('dotenv').config();
 const path = require('path');
-const env = process.env.NODE_ENV;
-
-console.log(process.env.NODE_ENV);
 module.exports = {
   'config': path.resolve(`app/config/config.local.js`),
   'models-path': path.resolve('app/models'),
