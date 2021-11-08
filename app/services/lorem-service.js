@@ -2,6 +2,8 @@ const config = require('../config/index').config;
 const axios = require('axios');
 const constants = require('../constants/constants');
 const messages = require('../constants/messages');
+const fs = require('fs');
+const path = require('path');
 
 const getLoremUrl = () => {
   return `${config.service.url}`;
@@ -13,26 +15,11 @@ const getLoremData = async (qty) => {
     const instance = axios.create({
       baseURL: `${loremUrl}/api?quantity=${qty || 1}`
     });
-
     const response = await instance.get();
-    /*
-    logger.info({
-      module: 'bff-user-profile',
-      method: 'getBankData',
-      description: `Trying to get bank data from bank service. Url ${bankUrl}/banks`
-    });
-    */
     return response.data;
   } catch (error) {
-    /*
-    logger.error({
-      module: 'bff-user-profile',
-      method: 'getBankData',
-      description: `Error getting the bank data from bank service. ${error.message}. URL: ${bankUrl}`,
-    });
-    */
     if (error.code === 'ECONNABORTED') {
-      error.message = `Authentication Service error. ${error.message}`;
+      error.message = `Service error. ${error.message}`;
     }
     switch (error.response.status) {
       case 502: {
@@ -68,6 +55,23 @@ const getLoremData = async (qty) => {
     throw error;
   }
 };
+
+const getLoremDataMock = async (qty) => {
+  const rawdata = fs.readFileSync(path.resolve(__dirname, '../mock/response.json'));
+  const loremData = JSON.parse(rawdata);
+  const loremReturn = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [i, value] of loremData.entries()) {
+    loremReturn.push(value);
+    const loop = i + 1;
+    if (loop === Number(qty)) {
+      break;
+    }
+  }
+  return loremReturn;
+};
+
 module.exports = {
-  getLoremData
+  getLoremData,
+  getLoremDataMock
 };

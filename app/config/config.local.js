@@ -9,6 +9,6 @@ module.exports = {
     logging: false
   },
   service: {
-    url: process.env.SERVICE_HOST || 'http://some-service.com'
+    url: process.env.SERVICE_HOST
   }
 };

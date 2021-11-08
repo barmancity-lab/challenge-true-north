@@ -1,12 +1,14 @@
 /* eslint-disable dot-notation */
-const { getLoremData } = require('../services/lorem-service');
+const { getLoremData, getLoremDataMock } = require('../services/lorem-service');
 const { setResponseWithOk, setResponseWithError } = require('../util/common-response');
 const { buildTask, markAsDone } = require('../services/task-processor');
+const config = require('../config/index').config;
 
 
 const get = async (req, res) => {
   try {
-    const loremData = await getLoremData(req.query.qty);
+    // eslint-disable-next-line max-len
+    const loremData = config.service.url ? await getLoremData(req.query.qty) : await getLoremDataMock(req.query.qty);
     const tasks = await buildTask(loremData);
     return setResponseWithOk(res, 200, tasks);
   } catch (e) {
